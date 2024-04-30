@@ -10,10 +10,10 @@ public function sendOtp($phone_number, $otp, $message = null)
     $api_key = env('SMS_API_KEY');
     $secret_key = env('SMS_SECRET_KEY');
     $postData = array(
-      'from' => 'HUKUEVENTS',
+      'from' => 'YOUR_SENDER_NAME',
       'to' => $phone_number,
       'text' => utf8_encode($sms),
-      'reference' => 'HUKUEVENTS'
+      'reference' => 'YOUR_SENDER_NAME'
     );
 
     $curl = curl_init();
