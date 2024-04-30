@@ -1,10 +1,5 @@
-public function sendOtp($phone_number, $otp, $message = null)
+public function sendSms($phone_number,$sms)
   {
-    if($message!=null){
-      $sms = $message;
-    }else{
-      $sms="Your Login code is $otp";
-    }
 
 
     $api_key = env('SMS_API_KEY');
@@ -41,17 +36,16 @@ public function sendOtp($phone_number, $otp, $message = null)
     curl_close($curl);
     $response = json_decode($responses, true);
     if (isset ($response['success']) && $response['success'] == false) {
-      Otp::where('phone', $phone_number)->where('otp', $otp)->update(['send_status' => "failed"]);
+      //failed
       return false;
     } else {
       if ($response['messages'][0]['status']['groupName'] == 'PENDING') {
-        Otp::where('phone', $phone_number)->where('otp', $otp)->update(['send_status' => "sent"]);
-
+        //send successfull
+        return true;
 
       } else {
-        Otp::where('phone', $phone_number)->where('otp', $otp)->update(['send_status' => "failed"]);
+        //failed
         return false;
       }
     }
-    return true;
   }
